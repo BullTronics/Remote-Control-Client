@@ -18,6 +18,8 @@ import {
   View,
 } from 'react-native';
 
+import SplashScreen from 'react-native-splash-screen';
+
 import {
   Colors,
   DebugInstructions,
@@ -28,6 +30,7 @@ import {
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
+  SplashScreen.hide();
   return (
     <View style={styles.sectionContainer}>
       <Text
