@@ -1,4 +1,4 @@
-package com.remotecontrol;
+package com.bulltronics.rc.system;
 
 import com.facebook.react.ReactActivity;
 
