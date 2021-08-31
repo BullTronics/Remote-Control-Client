@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { Text, View, Image, useColorScheme, Button, Linking, TouchableHighlight } from 'react-native';
+import { Text, View, Image, Linking, TouchableHighlight } from 'react-native';
 
 import { useTheme } from '@react-navigation/native';
 
 export function AboutPage({ navigation }) {
-  const scheme = useColorScheme();
   const { colors } = useTheme();
   
   return (
