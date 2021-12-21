@@ -10,17 +10,13 @@ import {
   Alert,
 } from 'react-native';
 
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
-
 import {storeConfigData, loadConfigData} from './../services/Util';
 
 var initVar;
 export function ConfigPage({ navigation }) {
   const [host, onChangeHost] = React.useState(global.host);
   const [port, onChangePort] = React.useState(global.port);
-  const [secret, onChangeSecret] = React.useState(global.secret);
+  const [token, onChangeToken] = React.useState(global.token);
 
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -28,7 +24,7 @@ export function ConfigPage({ navigation }) {
     loadConfigData().then(()=>{
       onChangeHost(global.host);
       onChangePort(global.port);
-      onChangeSecret(global.secret);
+      onChangeToken(global.token);
     });
   }, [initVar]);
 
@@ -45,12 +41,12 @@ export function ConfigPage({ navigation }) {
             onChangeText={onChangeHost}
             value={host}
             style={{
-              backgroundColor: 'black',
+              backgroundColor: isDarkMode ? 'white' : 'gray',
               borderColor:'gray',
               borderWidth: 1,
               padding: 5,
               margin: 5,
-              marginBottom: 20
+              color: !isDarkMode ? 'white' : 'black'
             }}
           />
           
@@ -59,31 +55,33 @@ export function ConfigPage({ navigation }) {
             onChangeText={onChangePort}
             value={port}
             style={{
-              backgroundColor: 'black',
+              backgroundColor: isDarkMode ? 'white' : 'gray',
               borderColor:'gray',
               borderWidth: 1,
               padding: 5,
               margin: 5,
+              color: !isDarkMode ? 'white' : 'black'
             }}
           />
           
-          <Text style={{color: isDarkMode ? 'white' : 'black'}}>Secret:</Text>
+          <Text style={{color: isDarkMode ? 'white' : 'black'}}>Token:</Text>
           <TextInput
-            onChangeText={onChangeSecret}
-            value={secret}
+            onChangeText={onChangeToken}
+            value={token}
             style={{
-              backgroundColor: 'black',
+              backgroundColor: isDarkMode ? 'white' : 'gray',
               borderColor:'gray',
               borderWidth: 1,
               padding: 5,
               margin: 5,
+              color: !isDarkMode ? 'white' : 'black'
             }}
           />
         </View>
 
         <View style={{position: 'absolute', bottom: 0, width: '100%'}}>
           <Button onPress={()=>{
-              storeConfigData(host, port, secret).then(Alert.alert("Remote Control", "Hostname, Port and Secret Stored"));
+              storeConfigData(host, port, token).then(Alert.alert("Remote Control", "Hostname, Port and Token Stored"));
             }} title="Save"/>
         </View>
       </View>

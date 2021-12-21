@@ -1,6 +1,8 @@
 import { ToastAndroid } from 'react-native';
 import {requestDispatcher} from './Controller';
 
+import {sendMessage} from './SocketHandler';
+
 export async function pauseMedia() {
     try {
         let jsonResponse = await requestDispatcher({"timestamp":new Date().getTime(),"command":"MediaControl","action":"PAUSE"});
@@ -65,4 +67,40 @@ export async function volumeDecrease() {
     } catch (error) {
         return {volume: 0, isMute: false};
     }
+}
+
+
+export function setVolume(ws, volume) {
+    let msg = [
+        {
+            "seqNum": 1,
+            "action":"MEDIA_VOLUME_SET",
+            "data": {
+                "volume": volume
+            }
+        }
+    ];
+    sendMessage(ws, JSON.stringify(msg));
+}
+
+
+export function notSupported(ws, data) {
+    if(ws == null) {
+        alert("Server not connected");
+        return;
+    }
+    alert("Not supported");
+}
+
+export function pressKey(ws, key) {
+    let msg = [
+        {
+            "seqNum": 1,
+            "action":"KEYBOARD_KEY_PRESS",
+            "data": {
+                "key": key
+            }
+        }
+    ];
+    sendMessage(ws, JSON.stringify(msg));
 }

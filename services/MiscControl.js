@@ -1,24 +1,30 @@
-import { ToastAndroid } from 'react-native';
-import {requestDispatcher} from './Controller';
+import {sendMessage} from './SocketHandler';
 
-export async function startRandomCursorMove(smoothMoveFlag) {
-    try {
-        let jsonResponse = await requestDispatcher({"timestamp":new Date().getTime(),"command":"MiscControl","action":"RANDOM_CURSOR_MOVE_START", "data":{smoothMoveFlag}});
-        console.log("response: ", jsonResponse);
-        ToastAndroid.show(jsonResponse.message, 2);
-        return jsonResponse.data;
-    } catch (error) {
-        return {volume: 0, isMute: false};
-    }
+export function startRandomCursorMove(ws, delayInSecond, durationInMinute, stepInMiliSecond, pauseInSecond) {
+    console.log(`delayInSecond: ${delayInSecond}, durationInMinute: ${durationInMinute}, stepInMiliSecond: ${stepInMiliSecond}, pauseInSecond: ${pauseInSecond}`);
+    let msg = [
+        {
+            "seqNum": 1,
+            "action":"CURSOR_RANDOM_MOVE_START",
+            "data": {
+                "delay": parseInt(delayInSecond * 1000),
+                "duration": parseInt(durationInMinute * 60 * 1000),
+                "step": parseInt(stepInMiliSecond),
+                "pause": parseInt(pauseInSecond * 1000)
+            }
+        }
+    ];
+    sendMessage(ws, JSON.stringify(msg));
 }
 
-export async function stopRandomCursorMove() {
-    try {
-        let jsonResponse = await requestDispatcher({"timestamp":new Date().getTime(),"command":"MiscControl","action":"RANDOM_CURSOR_MOVE_STOP"});
-        console.log("response: ", jsonResponse);
-        ToastAndroid.show(jsonResponse.message, 3);
-        return jsonResponse.data;
-    } catch (error) {
-        return {volume: 0, isMute: false};
-    }
+export function stopRandomCursorMove(ws) {
+    let msg = [
+        {
+            "seqNum": 1,
+            "action":"CURSOR_RANDOM_MOVE_STOP",
+            "data": {
+            }
+        }
+    ];
+    sendMessage(ws, JSON.stringify(msg));
 }
