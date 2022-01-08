@@ -1,4 +1,4 @@
-export function connectToServer(ws, setWs, callbackFunction) {
+export function connectToServer(ws, setWs, onSuccessCallbackFunction, onErrorCallbackFunction) {
     if(ws !== null) {
         return;
     }
@@ -10,7 +10,7 @@ export function connectToServer(ws, setWs, callbackFunction) {
     websocket.onopen = () => {
         let message = "Server Connected";
         console.log(message);
-        callbackFunction();
+        onSuccessCallbackFunction();
     };
 
     websocket.onmessage = (e) => {
@@ -23,6 +23,7 @@ export function connectToServer(ws, setWs, callbackFunction) {
         // an error occurred
         alert(e.message);
         console.log("Error: ", e.message);
+        onErrorCallbackFunction();
     };
     websocket.onclose = (e) => {
         // connection closed
@@ -39,13 +40,13 @@ export function sendMessage(ws, message) {
     ws.send(message);
 }
 
-export function disconnectServer(ws, setWs, callbackFunction) {
+export function disconnectServer(ws, setWs, onSuccessCallbackFunction, onErrorCallbackFunction) {
     if(ws !== null) {
         ws.close();
         ws = null;
         setWs(null);
     }
-    callbackFunction();
+    onSuccessCallbackFunction();
 }
 
 export function isConnected(ws, setWs) {

@@ -41,21 +41,25 @@ function headerBar(setShowSpinner) {
           <Image source={require('./images/logo.png')} style={{width: 40, height: 40}}/>
         </View>
         <View style={{padding: 5, flexDirection: 'column', alignItems:'flex-end' }}>
-          {ws !== null ? 
+          {ws !== null ?
               <TouchableOpacity onPress={() => {
                 setShowSpinner(true);
                 disconnectServer(ws, setWs, () => {
                   setShowSpinner(false);
+                }, ()=>{
+                  setShowSpinner(false);
                 });
               }} style={{ padding: 5}}>
                 <Icon name={'link'} size={30} color={'green'} />
-              </TouchableOpacity> 
-            : 
+              </TouchableOpacity>
+            :
               <TouchableOpacity onPress={() => {
                 setShowSpinner(true);
                 connectToServer(ws, setWs, () => {
                   setShowSpinner(false);
-                 });
+                 }, ()=>{
+                  setShowSpinner(false);
+                });
               }} style={{ padding: 5}}>
                 <Icon name={'unlink'} size={30} color={'red'} />
               </TouchableOpacity>
