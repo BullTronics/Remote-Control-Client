@@ -197,13 +197,13 @@ export function ConfigPage({ navigation }) {
               color: !isDarkMode ? 'white' : 'black'
             }}
           />
+          <View style={{paddingTop: 20, width: '100%'}}>
+            <Button onPress={()=>{
+                storeConfigData(host, port, token).then(Alert.alert("Remote Control", "Hostname, Port and Token Stored"));
+              }} title="Save"/>
+          </View>
         </View>
 
-        <View style={{position: 'absolute', bottom: 0, width: '100%'}}>
-          <Button onPress={()=>{
-              storeConfigData(host, port, token).then(Alert.alert("Remote Control", "Hostname, Port and Token Stored"));
-            }} title="Save"/>
-        </View>
       </View>
     </SafeAreaView>
   );
